@@ -1,18 +1,18 @@
 {
   "name": "@tappz-gmbh/fireorm",
   "description": "ORM for Firestore",
-  "version": "0.0.0-development",
+  "version": "0.0.0",
   "author": "Willy Ovalle <willyovalle16@gmail.com>",
   "homepage": "https://fireorm.js.org",
   "license": "ISC",
   "main": "lib/src/index.js",
   "types": "lib/src/index.d.ts",
   "bugs": {
-    "url": "https://github.com/wovalle/fireorm/issues"
+    "url": "https://github.com/Tappz-GmbH/fireorm/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wovalle/fireorm.git"
+    "url": "git@github.com:Tappz-GmbH/fireorm.git"
   },
   "keywords": [
     "firebase",
