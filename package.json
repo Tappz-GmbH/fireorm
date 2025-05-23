@@ -1,5 +1,5 @@
 {
-  "name": "fireorm",
+  "name": "@tappz-gmbh/fireorm",
   "description": "ORM for Firestore",
   "version": "0.0.0-development",
   "author": "Willy Ovalle <willyovalle16@gmail.com>",
