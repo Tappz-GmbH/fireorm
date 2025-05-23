@@ -90,9 +90,9 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
     tranRefStorage?: ITransactionReferenceStorage
   ) => {
     // Requiring here to prevent circular dependency
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
     const { getRepository } = require('./helpers');
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
     const { FirestoreTransaction } = require('./Transaction/FirestoreTransaction');
 
     this.colMetadata.subCollections.forEach(subCol => {
@@ -406,6 +406,10 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
     return new QueryBuilder<T>(this).customQuery(func);
   }
 
+  private hasCodeProperty(error: unknown): error is { code: string } {
+    return typeof error === 'object' && error !== null && 'code' in error;
+  }
+
   /**
    * Uses class-validator to validate an entity using decorators set in the collection class
    *
@@ -424,7 +428,7 @@ export abstract class AbstractFirestoreRepository<T extends IEntity>
 
       return classValidator.validate(entity, this.config.validatorOptions);
     } catch (error) {
-      if (error.code === 'MODULE_NOT_FOUND') {
+      if (this.hasCodeProperty(error) && error.code === 'MODULE_NOT_FOUND') {
         throw new Error(
           'It looks like class-validator is not installed. Please run `npm i -S class-validator` to fix this error, or initialize FireORM with `validateModels: false` to disable validation.'
         );

@@ -1,4 +1,4 @@
-import { Firestore, DocumentReference } from '@google-cloud/firestore';
+import { Firestore, DocumentReference, FieldValue } from '@google-cloud/firestore';
 import { serializeEntity } from '../utils';
 import type { FullCollectionMetadata } from '../MetadataStorage';
 import type { ValidationError } from '../Errors/ValidationError';
@@ -37,6 +37,12 @@ export class FirestoreBatchUnit {
     });
   }
 
+  private toFirestoreData(serialized: Record<string, unknown>): {
+    [x: string]: FieldValue | Partial<unknown> | undefined;
+  } {
+    return serialized as { [x: string]: FieldValue | Partial<unknown> | undefined };
+  }
+
   commit = async () => {
     if (this.status === 'committing') {
       throw new Error('This Batch is being committed');
@@ -69,10 +75,10 @@ export class FirestoreBatchUnit {
           batch.set(op.ref, serialized);
           break;
         case 'update':
-          batch.update(op.ref, serialized);
+          batch.update(op.ref, this.toFirestoreData(serialized));
           break;
         case 'delete':
-          batch.delete(op.ref, serialized);
+          batch.delete(op.ref, this.toFirestoreData(serialized));
           break;
       }
     }
@@ -83,6 +89,10 @@ export class FirestoreBatchUnit {
 
     return result;
   };
+
+  private hasCodeProperty(error: unknown): error is { code: string } {
+    return typeof error === 'object' && error !== null && 'code' in error;
+  }
 
   async validate(
     item: IEntity,
@@ -99,7 +109,7 @@ export class FirestoreBatchUnit {
 
       return classValidator.validate(entity, validatorOptions);
     } catch (error) {
-      if (error.code === 'MODULE_NOT_FOUND') {
+      if (this.hasCodeProperty(error) && error.code === 'MODULE_NOT_FOUND') {
         throw new Error(
           'It looks like class-validator is not installed. Please run `npm i -S class-validator` to fix this error, or initialize FireORM with `validateModels: false` to disable validation.'
         );

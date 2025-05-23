@@ -5,7 +5,6 @@ import { initialize } from './MetadataUtils';
 import { FirestoreTransaction } from './Transaction/FirestoreTransaction';
 import { FirestoreBatch } from './Batch/FirestoreBatch';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const MockFirebase = require('mock-cloud-firestore');
 
 describe('Helpers', () => {
@@ -58,7 +57,6 @@ describe('Helpers', () => {
     }
 
     @CustomRepository(Entity)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     class EntityRepo extends BaseFirestoreRepository<Entity> {
       meaningOfLife() {
         return 42;

@@ -1,4 +1,4 @@
-import { Query, Transaction, WhereFilterOp } from '@google-cloud/firestore';
+import { Query, Transaction, WhereFilterOp, FieldValue } from '@google-cloud/firestore';
 
 import {
   IEntity,
@@ -23,6 +23,12 @@ export class TransactionRepository<T extends IEntity>
     super(pathOrConstructor);
     this.transaction = transaction;
     this.tranRefStorage = tranRefStorage;
+  }
+
+  private toFirestoreData(serialized: Record<string, unknown>): {
+    [x: string]: FieldValue | Partial<unknown> | undefined;
+  } {
+    return serialized as { [x: string]: FieldValue | Partial<unknown> | undefined };
   }
 
   async execute(queries: IFireOrmQueryLine[]): Promise<T[]> {
@@ -77,7 +83,7 @@ export class TransactionRepository<T extends IEntity>
     }
 
     const query = this.firestoreColRef.doc(item.id);
-    this.transaction.update(query, this.toSerializableObject(item));
+    this.transaction.update(query, this.toFirestoreData(this.toSerializableObject(item)));
 
     return item;
   }

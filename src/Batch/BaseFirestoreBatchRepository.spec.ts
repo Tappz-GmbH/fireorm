@@ -7,7 +7,6 @@ import { FirestoreBatchUnit } from './FirestoreBatchUnit';
 import { BaseFirestoreRepository } from '../BaseFirestoreRepository';
 import { getRepository } from '../helpers';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const MockFirebase = require('mock-cloud-firestore');
 
 describe('BaseFirestoreBatchRepository', () => {
@@ -209,7 +208,6 @@ describe('BaseFirestoreBatchRepository', () => {
     });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   describe('should handle subcollections', () => {
     it('should be able to create subcollections and initialize them', async () => {
       const band = new Band();

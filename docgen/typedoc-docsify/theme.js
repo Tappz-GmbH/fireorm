@@ -17,7 +17,7 @@ class DocsifyTheme extends MarkdownTheme {
       this.application.logger.write(
         `[typedoc-plugin-markdown] _sidebar.md written to ${outputDirectory}`
       );
-    } catch (e) {
+    } catch {
       this.application.logger.write(
         `[typedoc-plugin-markdown] failed to write _sidebar at ${outputDirectory}`
       );

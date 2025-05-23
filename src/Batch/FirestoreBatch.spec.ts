@@ -4,7 +4,6 @@ import { initialize } from '..';
 import { Collection } from '../Decorators';
 import { FirestoreBatch } from './FirestoreBatch';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const MockFirebase = require('mock-cloud-firestore');
 
 describe('FirestoreBatch', () => {

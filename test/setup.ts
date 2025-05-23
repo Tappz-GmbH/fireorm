@@ -10,10 +10,7 @@ const serviceAccount = {
   clientEmail: process.env.FIRESTORE_CLIENT_EMAIL,
 };
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: serviceAccount.databaseUrl,
-});
+admin.initializeApp();
 
 const firestore = admin.firestore();
 // To understand this, see 5-document-references.spec.ts

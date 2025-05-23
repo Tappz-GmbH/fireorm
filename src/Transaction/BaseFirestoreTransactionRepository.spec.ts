@@ -5,7 +5,6 @@ import { initialize } from '../MetadataUtils';
 import { Band } from '../../test/BandCollection';
 import { TransactionRepository } from './BaseFirestoreTransactionRepository';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const MockFirebase = require('mock-cloud-firestore');
 
 // Just a test type to prevent using any other method than
